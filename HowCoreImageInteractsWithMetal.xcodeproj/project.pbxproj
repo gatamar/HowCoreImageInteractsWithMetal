@@ -14,6 +14,7 @@
 		4F5319692548AB37005FF098 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F5319682548AB37005FF098 /* Assets.xcassets */; };
 		4F53196C2548AB37005FF098 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F53196A2548AB37005FF098 /* LaunchScreen.storyboard */; };
 		4F53196F2548AB37005FF098 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F53196E2548AB37005FF098 /* main.m */; };
+		4F5319762548AF1C005FF098 /* im_RGB.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F5319752548AF1C005FF098 /* im_RGB.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		4F53196B2548AB37005FF098 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F53196D2548AB37005FF098 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F53196E2548AB37005FF098 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4F5319752548AF1C005FF098 /* im_RGB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = im_RGB.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +47,7 @@
 		4F5319502548AB34005FF098 = {
 			isa = PBXGroup;
 			children = (
+				4F5319752548AF1C005FF098 /* im_RGB.png */,
 				4F53195B2548AB34005FF098 /* HowCoreImageInteractsWithMetal */,
 				4F53195A2548AB34005FF098 /* Products */,
 			);
@@ -134,6 +137,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F53196C2548AB37005FF098 /* LaunchScreen.storyboard in Resources */,
+				4F5319762548AF1C005FF098 /* im_RGB.png in Resources */,
 				4F5319692548AB37005FF098 /* Assets.xcassets in Resources */,
 				4F5319672548AB34005FF098 /* Main.storyboard in Resources */,
 			);
