@@ -15,7 +15,6 @@
     id<MTLDevice> _metalDevice;
     id<MTLCommandQueue> _commandQueue;
     id<MTLCommandBuffer> _commandBuffer;
-    id<MTLBlitCommandEncoder> _blitEncoder;
 }
 @end
 
@@ -32,9 +31,7 @@
     
     _commandBuffer = [_commandQueue commandBuffer];
     assert(_commandBuffer != nil);
-    
-    _blitEncoder = [_commandBuffer blitCommandEncoder];
-    assert(_blitEncoder != nil);
+    _commandBuffer.label = @"MySuperCommandBuffer";
 }
 
 - (void)loadCoreImageToMetalApproach2:(CIImage*)inputImage
@@ -88,6 +85,9 @@
                                                           length:bytesPerImageRow*512
                                                          options:MTLResourceOptionCPUCacheModeDefault];
     assert(metalBuffer != nil);
+    
+    id<MTLBlitCommandEncoder> _blitEncoder = [_commandBuffer blitCommandEncoder];
+    assert(_blitEncoder != nil);
     
     [_blitEncoder copyFromBuffer:metalBuffer
                    sourceOffset:0
