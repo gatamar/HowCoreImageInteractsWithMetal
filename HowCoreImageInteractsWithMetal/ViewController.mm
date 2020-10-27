@@ -37,6 +37,25 @@
     assert(_blitEncoder != nil);
 }
 
+- (void)loadCoreImageToMetalApproach2:(CIImage*)inputImage
+{
+    [self recreateMetalResourcesForWidth:512*3 andHeight:512];
+    
+    id<MTLTexture> metalTexture = [_metalDevice newTextureWithDescriptor:_metalTextureDescriptor];
+    assert(metalTexture != nil);
+    
+    CIContext* ciContext = [[CIContext alloc] init];
+    [ciContext render:inputImage
+         toMTLTexture:metalTexture
+        commandBuffer:_commandBuffer
+               bounds:CGRectMake(0, 0, 512*3, 512)
+           colorSpace:inputImage.colorSpace];
+    
+    [_commandBuffer commit];
+    
+    abort();
+}
+
 - (void)loadCoreImageToMetalApproach1:(CIImage*)inputImage
 {
     size_t bytesPerImageRow = 512 * 3 * 4;
@@ -96,7 +115,8 @@
     CIImage* inputImage = [CIImage imageWithContentsOfURL:imageURL];
     assert(inputImage != nil);
     
-    [self loadCoreImageToMetalApproach1:inputImage];
+    //[self loadCoreImageToMetalApproach1:inputImage];
+    [self loadCoreImageToMetalApproach2:inputImage];
 }
 
 - (MTLTextureDescriptor*)createTextureDescriptor:(int)width height:(int)height
