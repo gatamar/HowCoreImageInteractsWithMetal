@@ -10,20 +10,35 @@
 #import <Metal/Metal.h>
 
 @interface ViewController ()
-
+{
+    MTLTextureDescriptor* _metalTextureDescriptor;
+    id<MTLDevice> _metalDevice;
+    id<MTLCommandQueue> _commandQueue;
+    id<MTLCommandBuffer> _commandBuffer;
+    id<MTLBlitCommandEncoder> _blitEncoder;
+}
 @end
 
 @implementation ViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = UIColor.blueColor;
+- (void)recreateMetalResourcesForWidth:(int)width andHeight:(int)height
+{
+    _metalTextureDescriptor = [self createTextureDescriptor:512*3 height:512];
     
-    NSURL* imageURL = [[NSBundle mainBundle] URLForResource:@"im_RGB" withExtension:@"png"];
-    CIImage* inputImage = [CIImage imageWithContentsOfURL:imageURL];
+    _metalDevice = MTLCreateSystemDefaultDevice();
     
-    assert(inputImage != nil);
+    _commandQueue = [_metalDevice newCommandQueue];
+    assert(_commandQueue != nil);
     
+    _commandBuffer = [_commandQueue commandBuffer];
+    assert(_commandBuffer != nil);
+    
+    _blitEncoder = [_commandBuffer blitCommandEncoder];
+    assert(_blitEncoder != nil);
+}
+
+- (void)loadCoreImageToMetalApproach1:(CIImage*)inputImage
+{
     size_t bytesPerImageRow = 512 * 3 * 4;
     size_t bytesPerImageTotal = bytesPerImageRow * 512;
     
@@ -45,28 +60,17 @@
     assert(rgbaBytes[g_tex_mid] == 0); assert(rgbaBytes[g_tex_mid+1] == 255);
     assert(rgbaBytes[b_tex_mid] == 0); assert(rgbaBytes[b_tex_mid+2] == 255);
     
-    MTLTextureDescriptor* descriptor = [self createTextureDescriptor:512*3 height:512];
+    [self recreateMetalResourcesForWidth:512*3 andHeight:512];
     
-    id<MTLDevice> metalDevice = MTLCreateSystemDefaultDevice();
-    id<MTLTexture> metalTexture = [metalDevice newTextureWithDescriptor:descriptor];
+    id<MTLTexture> metalTexture = [_metalDevice newTextureWithDescriptor:_metalTextureDescriptor];
     assert(metalTexture != nil);
     
-    id<MTLBuffer> metalBuffer = [metalDevice newBufferWithBytes:rgbaBytes
-                                                         length:bytesPerImageRow*512
-                                                        options:MTLResourceOptionCPUCacheModeDefault];
-    
+    id<MTLBuffer> metalBuffer = [_metalDevice newBufferWithBytes:rgbaBytes
+                                                          length:bytesPerImageRow*512
+                                                         options:MTLResourceOptionCPUCacheModeDefault];
     assert(metalBuffer != nil);
     
-    id<MTLCommandQueue> commandQueue = [metalDevice newCommandQueue];
-    assert(commandQueue != nil);
-    
-    id<MTLCommandBuffer> commandBuffer = [commandQueue commandBuffer];
-    assert(commandBuffer != nil);
-    
-    id<MTLBlitCommandEncoder> blitEncoder = [commandBuffer blitCommandEncoder];
-    assert(blitEncoder != nil);
-    
-    [blitEncoder copyFromBuffer:metalBuffer
+    [_blitEncoder copyFromBuffer:metalBuffer
                    sourceOffset:0
               sourceBytesPerRow:bytesPerImageRow
             sourceBytesPerImage:bytesPerImageTotal
@@ -77,10 +81,22 @@
               destinationOrigin:MTLOriginMake(0, 0, 0)
                         options:MTLBlitOptionNone];
     
-    [blitEncoder endEncoding];
-    [commandBuffer commit];
+    [_blitEncoder endEncoding];
+    [_commandBuffer commit];
     
     delete [] rgbaBytes;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.view.backgroundColor = UIColor.blueColor;
+    
+    NSURL* imageURL = [[NSBundle mainBundle] URLForResource:@"im_RGB" withExtension:@"png"];
+    CIImage* inputImage = [CIImage imageWithContentsOfURL:imageURL];
+    assert(inputImage != nil);
+    
+    [self loadCoreImageToMetalApproach1:inputImage];
 }
 
 - (MTLTextureDescriptor*)createTextureDescriptor:(int)width height:(int)height
