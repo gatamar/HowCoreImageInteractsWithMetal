@@ -15,6 +15,7 @@
 		4F53196C2548AB37005FF098 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F53196A2548AB37005FF098 /* LaunchScreen.storyboard */; };
 		4F53196F2548AB37005FF098 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F53196E2548AB37005FF098 /* main.m */; };
 		4F5319762548AF1C005FF098 /* im_RGB.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F5319752548AF1C005FF098 /* im_RGB.png */; };
+		4F5319792548B4FA005FF098 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5319782548B4FA005FF098 /* Metal.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		4F53196D2548AB37005FF098 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F53196E2548AB37005FF098 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4F5319752548AF1C005FF098 /* im_RGB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = im_RGB.png; sourceTree = "<group>"; };
+		4F5319782548B4FA005FF098 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F5319792548B4FA005FF098 /* Metal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +53,7 @@
 				4F5319752548AF1C005FF098 /* im_RGB.png */,
 				4F53195B2548AB34005FF098 /* HowCoreImageInteractsWithMetal */,
 				4F53195A2548AB34005FF098 /* Products */,
+				4F5319772548B4FA005FF098 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,6 +81,14 @@
 				4F53196E2548AB37005FF098 /* main.m */,
 			);
 			path = HowCoreImageInteractsWithMetal;
+			sourceTree = "<group>";
+		};
+		4F5319772548B4FA005FF098 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4F5319782548B4FA005FF098 /* Metal.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
